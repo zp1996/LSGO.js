@@ -1,4 +1,4 @@
- /**
+/**
   * lsgogroup工具方法库 v0.0.1
   * just support high version browser
   * @author zp
@@ -19,6 +19,8 @@
 		simpleSelectorRE = /^[\w-]*$/,
 		capitalRE = /([A-Z])/g,
 		readyRE = /complete|interactive/,
+		formatRE = /(?=(?!^)(\d{3})+$)/g,
+		numberRE = /\d+/g,
 		table = document.createElement("table"),
 		tableRow = document.createElement("tr"),
 		tempParent = document.createElement("div"),
@@ -743,6 +745,14 @@
 			return false;
 		}
 		return true;
+	};
+	// make 1000 to 1,000
+	L.thousandFormat = function (num) {
+		return num && 
+					 num.toString()
+					 .replace(numberRE, val => {
+					 		return val.replace(formatRE, ",");	
+					 });
 	};
 	window.L = window.l = L;
 })(this);
