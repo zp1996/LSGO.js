@@ -3,8 +3,11 @@
   * just support high version browser
   * @author zp
   */
-(function (window, undefined) {
-
+(function (global, factory) {
+	typeof define === "function" && define.amd ? define(function () {
+		return factory();
+	}) : global.L = factory();
+})(this, function (undefined) {
 	// 常量定义
 	const MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
 
@@ -754,5 +757,5 @@
 					 		return val.replace(formatRE, ",");	
 					 });
 	};
-	window.L = window.l = L;
-})(this);
+	return L;
+});
