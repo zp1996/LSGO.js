@@ -656,7 +656,8 @@
 				return -1;
 			},
 			range: function (start, stop, step) {
-				if (arguments.length <= 1) {
+				if (arguments.length <= 2) {
+					step = stop;
 					stop = start || 0;
 					start = 0;
 				}
@@ -734,6 +735,12 @@
 	L.camelCase = function (str) {
 		return str.replace(/-+(.)?/g, function (match, chr) {
 			return chr ? chr.toUpperCase() : "";
+		});
+	};
+	// make "xxXx" to "xx-xx"
+	L.ReverseCamel = function (str) {
+		return str.replace(/(?!^)(?!$)[A-Z]{1}/g, function (val) {
+			return "-" + val.toLowerCase();
 		});
 	};
 	L.now = function () {
