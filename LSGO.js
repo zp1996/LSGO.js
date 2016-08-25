@@ -104,7 +104,7 @@
 	}
 	// for dom element
 	function uniq (arr) {
-		return ap.filter.call(arr, (item, i) => {
+		return ap.filter.call(arr, function (item, i) {
 			return arr.indexOf(item) === i;
 		});
 	}
@@ -114,7 +114,7 @@
 	}
 	function children (ele) {
 		return "children" in ele ? slice.call(ele.children) :
-					 L.map(ele.childNodes, node => {
+					 L.map(ele.childNodes, function (node) {
 					 		if (node.nodeType === 1)
 					 			return node;
 					 });									 	
@@ -242,13 +242,13 @@
 			},
 			// loop the list
 			each: function (callback) {
-				ap.every.call(this, (val, i) => {
+				ap.every.call(this, function (val, i) {
 					return callback.call(val, val, i) !== false;
 				});
 				return this;
 			},
 			map: function (fn) {
-				return L(flatten(ap.map.call(this, (el, i) => {
+				return L(flatten(ap.map.call(this, function (el, i) {
 					return fn.call(el, el, i);
 				})));
 			},
@@ -269,7 +269,7 @@
 				} else {
 					var excludes = L.isString(selector) ? this.filter(selector) :
 												 isArrayLike(selector) ? slice.call(selector) : L(selector);
-					ap.forEach.call(this, (el) => {
+					ap.forEach.call(this, function (el) {
 						if (excludes.indexOf(el) === -1)
 							nodes.push(el);
 					});							 		
@@ -279,7 +279,7 @@
 			filter: function (selector) {
 				if (L.isFunction(selector))
 					return this.not(this.not(selector));
-				return L(ap.filter.call(this, (el) => {
+				return L(ap.filter.call(this, function (el) {
 					return matches(el, selector);
 				}));
 			},
@@ -331,7 +331,7 @@
 			},
 			// get attribute of the every node in collection, and return an array
 			pluck: function (property) {
-				return L.map(this, ele => {
+				return L.map(this, function (ele) {
 					return ele[property];
 				});
 			},
@@ -442,8 +442,8 @@
 							 });								 
 			},
 			removeAttr: function (name) {
-				return this.each((ele, i) => {
-					ele.nodeType === 1 && name.split(" ").forEach(attr => {
+				return this.each(function (ele, i) {
+					ele.nodeType === 1 && name.split(" ").forEach(function (attr) {
 						setAttribute(ele, attr);	
 					});
 				});
@@ -469,7 +469,7 @@
 				return arguments.length === 1 ? 
 																			this.each(function (ele, idx) {
 																				ele.value = funcArg(ele, value, idx, ele.value);	
-																			}) : (this[0] && this[0].multiple) ? L(this[0]).find("option").filter(() => {
+																			}) : (this[0] && this[0].multiple) ? L(this[0]).find("option").filter(function () {
 																				return this.selected;
 																			}).pluck("value") : this[0].value;
 			},
@@ -571,7 +571,7 @@
 					isArray = isArrayLike(obj), 
 					temp;
 				if (isArray) {
-					ap.every.call(obj, (val, i) => {
+					ap.every.call(obj, function (val, i) {
 						temp = obj;
 						return callback.call(obj, val, i) !== false;
 					});
@@ -637,7 +637,7 @@
 			},
 			// 得到一个由数组中满足的项组成的数组
 			grep: function (arr, callback) {
-				callback = callback || (() => { return true });
+				callback = callback || (function () { return true });
 				return ap.filter.call(arr, callback);
 			},
 			BinarySearch: function (arr, value) {
@@ -671,7 +671,7 @@
 		}); 
 		// remove undefined and null
 		function compact (arr) {
-			return arr.filter((val) => {
+			return arr.filter(function (val) {
 				return val !== undefined && val !== null;
 			});
 		}
@@ -710,8 +710,8 @@
 		return L;
 	}();
 	// judge object's type
-	L.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), name => {
-		L["is" + name] = (obj) => {
+	L.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function (name) {
+		L["is" + name] = function (obj) {
 			return toString.call(obj) === "[object " + name + "]";
 		};
 	});
@@ -753,7 +753,7 @@
 	L.thousandFormat = function (num) {
 		return num && 
 					 num.toString()
-					 .replace(numberRE, val => {
+					 .replace(numberRE, function (val) {
 					 		return val.replace(formatRE, ",");	
 					 });
 	};

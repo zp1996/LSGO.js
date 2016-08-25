@@ -1,0 +1,29 @@
+{
+  "name": "lsgo.js",
+  "version": "1.0.0",
+  "description": "\"lsgogroup前端类库\"",
+  "main": "LSGO.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zp1996/LSGO.js.git"
+  },
+  "keywords": [
+    "lsgo.js"
+  ],
+  "author": "zp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zp1996/LSGO.js/issues"
+  },
+  "homepage": "https://github.com/zp1996/LSGO.js#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0",
+    "jshint": "^2.9.3"
+  }
+}
