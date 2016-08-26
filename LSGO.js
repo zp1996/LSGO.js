@@ -95,7 +95,7 @@
 		// ~-1(=>0) == false,others are not equal false
 		match = ~qsa(element, selector).indexOf(element);
 		flag && tempParent.removeChild(element);
-		return Boolean(flag); 
+		return Boolean(match); 
 	}
 	// whether array or like array object
 	function isArrayLike (obj) {

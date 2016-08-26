@@ -4,6 +4,27 @@
 	mocha.ui("bdd");
 
 	describe("LSGO类库测试", () => {
+		describe("DOM相关方法测试", () => {
+			it("selector", () => {
+				assert(L("#btn").attr("id") === "btn");
+				assert(L("button").length === 3);
+				assert(L(".container").length === 1);
+				assert(L(".container button").length === 3);
+			});
+			it("text/html", () => {
+				assert(L("#btn").text() === "btn");
+				assert(L("button").text() === "btntestbtn-test");
+				assert(L("#btn").text("change").text() === "change");
+			});
+			it("is", () => {
+				assert(L("button").is("#btn"));
+				assert(L(".container").is("div"));
+			});
+			// it("indexOf", () => {
+			// 	assert(L("button").indexOf(L("#btn").eq(0)) === 0);
+			// });
+		});	
+
 		describe("数组扩展方法测试", () => {				
 			it("L.merge", () => {
 				fn = L.merge;
@@ -16,14 +37,6 @@
 				assert(fn([1, 2, 3], 1) === 0);
 				assert(fn([1, 2, 3], -1) === -1);
 			});
-			it("L.range", () => {
-				fn = L.range;
-				assert(fn(0, 5, 1).join("") === "01234");
-				assert(fn(5, 1).join("") === "01234");
-				assert(fn(5).join("") === "01234");
-				assert(fn(5, 2).join("") === "024");
-				assert(fn(5, 7).join("") === "0");
-			});
 			it("L.inArray", () => {
 				fn = L.inArray;
 				assert(fn(1, [1, 2, 3], 1) === -1);
@@ -35,6 +48,76 @@
 				assert(fn([1, 1, 1, 1, 1].join("") === "1"));
 				assert(fn([1, 2, 3, 4, 5].join("") === "12345"));
 				assert(fn([1, 3, 3, 5, 5].join("") === "135"));
+			});
+			it("L.grep", () => {
+				fn = L.grep;
+				assert(fn([1, 2, 3]).join("") === "123");
+				assert(fn([1, 2, 3], val => val < 2).join("") === "1");
+				assert(fn([1, 2, 3], val => val < 1).join("") === "");
+			});
+			it("L.range", () => {
+				fn = L.range;
+				assert(fn(0, 5, 1).join("") === "01234");
+				assert(fn(5, 1).join("") === "01234");
+				assert(fn(5).join("") === "01234");
+				assert(fn(5, 2).join("") === "024");
+				assert(fn(5, 7).join("") === "0");
+			});
+		});
+	
+		describe("类型判断方法扩展测试", () => {
+			var bool = new Boolean(false),
+				boolr = false,
+				str = new String("false"),
+				strr = "false",
+				num = new Number(0),
+				numr = 0,
+				date = new Date(),
+				obj = {},
+				arr = [],
+				pattern = /\d{1}/,
+				fun = () => {},
+				error = new Error("test error");
+			function judge (fn, type) {
+				assert(fn(bool) === ("bool" === type));
+				assert(fn(boolr) === ("bool" === type));
+				assert(fn(str) === ("string" === type));
+				assert(fn(strr) === ("string" === type));
+				assert(fn(num) === ("number" === type));
+				assert(fn(numr) === ("number" === type));
+				assert(fn(date) === ("date" === type));
+				assert(fn(obj) === ("object" === type));
+				assert(fn(arr) === ("array" === type));
+				assert(fn(pattern) === ("regexp" === type));
+				assert(fn(error) === ("error" === type));
+				assert(fn(fun) === ("function" === type));
+			}
+			it("L.isBoolean", () => {
+				judge(L.isBoolean, "bool");
+			});
+			it("L.isString", () => {
+				judge(L.isString, "string");
+			});
+			it("L.isNumber", () => {
+				judge(L.isNumber, "number");
+			});
+			it("L.isDate", () => {
+				judge(L.isDate, "date");
+			});
+			it("L.isObject", () => {
+				judge(L.isObject, "object");
+			});
+			it("L.isArray", () => {
+				judge(L.isArray, "array");
+			});
+			it("L.isRegExp", () => {
+				judge(L.isRegExp, "regexp");
+			});
+			it("L.isFunction", () => {
+				judge(L.isFunction, "function");
+			});
+			it("L.isError", () => {
+				judge(L.isError, "error");
 			});
 		});
 
@@ -63,6 +146,12 @@
 				assert(fn([1]) === false);
 				assert(fn(1) === true);
 				assert(fn(NaN) === false);
+			});
+			it("L.isEmptyObject", () => {
+				fn = L.isEmptyObject;
+				assert(fn({}) === true);
+				assert(fn({x: 1}) === false);
+				assert(fn(Object.create(null)) === true);
 			});
 		});
 	});
