@@ -93,7 +93,7 @@
 			(parent = tempParent).appendChild(element);
 		}
 		// ~-1(=>0) == false,others are not equal false
-		match = ~qsa(element, selector).indexOf(element);
+		match = ~qsa(parent, selector).indexOf(element);
 		flag && tempParent.removeChild(element);
 		return Boolean(match); 
 	}
@@ -200,6 +200,10 @@
 				return new LSGO(dom, selector);
 			},
 			indexOf: ap.indexOf,
+			index: function (element) {
+				element = element.get ? element.get(0) : element;
+				return ap.indexOf.call(this, element);
+			},
 			concat: function () {
 				var value, args = [];
 				for (var i = 0, len = arguments.length; i < len; i++) {

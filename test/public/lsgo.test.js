@@ -20,9 +20,23 @@
 				assert(L("button").is("#btn"));
 				assert(L(".container").is("div"));
 			});
-			// it("indexOf", () => {
-			// 	assert(L("button").indexOf(L("#btn").eq(0)) === 0);
-			// });
+			it("not", () => {
+				assert(L("button").not("#btn").get(0) === L("#second").get(0));
+				assert(L("button").not("#second").get(0) === L("#btn").get(0));
+			});
+			it("index", () => {
+				assert(L("button").index(document.getElementById("btn")) === 0);
+				assert(L("button").index(L("#btn")) === 0);
+				assert(L("button").index(L("#second")) === 1);
+			});
+			it("get", () => {
+				assert(L("button").get(0) === document.getElementById("btn"));
+				assert(L("button").get(0) === document.getElementsByTagName("button")[0]);
+			});
+			it("toArray", () => {
+				assert(Array.isArray(L("button").toArray()));
+				assert(Array.isArray(L("#btn").toArray()));
+			});
 		});	
 
 		describe("数组扩展方法测试", () => {				
