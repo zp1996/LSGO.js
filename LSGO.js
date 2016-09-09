@@ -184,7 +184,7 @@
 					}
 				}
 				else if (L.isFunction(selector)){
-					return $(document).ready(selector);
+					return L(document).ready(selector);
 				}
 				else if (isLSGO(selector)) {
 					return selector;
@@ -238,7 +238,7 @@
 				if (readyRE.test(document.readyState) && document.body) {
 					callback();
 				} else {
-					document.addEventListener("DOMConentLoaded", function () {
+					document.addEventListener("DOMContentLoaded", function () {
 						callback();
 					}, false);
 				}
