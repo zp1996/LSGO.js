@@ -737,7 +737,7 @@
 	};
 	// make "xx-xx" to "xxXx"
 	L.camelCase = function (str) {
-		return str.replace(/-+(.)?/g, function (match, chr) {
+		return str.replace(/-(\w)/g, function (match, chr) {
 			return chr ? chr.toUpperCase() : "";
 		});
 	};
