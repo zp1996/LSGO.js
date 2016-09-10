@@ -152,7 +152,7 @@
 				fn = L.ReverseCamel;
 				assert(fn("camelCase") === "camel-case");
 				assert(fn("backGroundColor") === "back-ground-color");
-				assert(fn("KobeBryant") === "Kobe-bryant");
+				assert(fn("KobeBryant") === "kobe-bryant");
 			});
 			it("L.isNumeric", () => {
 				fn = L.isNumeric;

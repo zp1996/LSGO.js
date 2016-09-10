@@ -744,8 +744,8 @@
 	// make "xxXx" to "xx-xx"
 	L.ReverseCamel = function (str) {
 		return str.replace(/(?!^)(?!$)[A-Z]{1}/g, function (val) {
-			return "-" + val.toLowerCase();
-		});
+			return "-" + val;
+		}).toLowerCase();
 	};
 	L.now = function () {
 		return +( new Date() );
