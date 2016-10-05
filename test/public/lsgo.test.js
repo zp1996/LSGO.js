@@ -134,8 +134,53 @@
 				judge(L.isError, "error");
 			});
 		});
-
+		// 对象是否相等
+		function equal (objA, objB) {
+			var keyA = Object.keys(objA),
+				keyB = Object.keys(objB);
+			if (keyA.length !== keyB.length) 
+				return false;
+			return keyA.every((key) => {
+				if (typeof objA[key] === "object") 
+					return JSON.stringify(objA[key]) === JSON.stringify(objB[key]);
+				else 
+					return objA[key] === objB[key];
+			});
+		}
 		describe("其余扩展方法测试", () => {
+			it("L.extend", () => {
+				var objA = {},
+					objB = {},	
+					objC = {},
+					a = {
+						fn: () => {
+							console.log("测试extend->a");
+						},
+						arr: [1, 2, 3]
+					},
+					b = {
+						fn: () => {
+							console.log("测试extend->b")
+						},
+						arr: [4, 5, 6]
+					},
+					c = {
+						x: 1,
+						y: 2
+					};
+				fn = L.extend;
+				fn(true, objA, a);
+				fn(true, objB, a, b);
+				fn(true, objC, a, c);
+				assert(equal(objA, a));
+				assert(equal(objB, b));
+				assert(equal(objC, {
+					x: 1,
+					y: 2,
+					fn: a.fn,
+					arr: a.arr
+				}));
+			});
 			it("L.thousandFormat", () => {
 				fn = L.thousandFormat;
 				assert(fn(100) === "100");

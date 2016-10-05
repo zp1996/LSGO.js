@@ -545,20 +545,21 @@
 			if (typeof target !== "object" && typeof target !== "function") {
 				target = {};
 			}
-			// 只有一个对象时,L对象为源头对象
+			// extend L
 			if (i === len) {
 				target = this;
 				i--;
 			}
 			for (; i < len; i++) {
 				options = arguments[i] || {};
-				// 深复制,序列化对象
-				if (deep) {
-					options = JSON.parse(JSON.stringify(options));
-				}
-				for (var i in options) {
-					if (hasOwn.call(options, i))
-						target[i] = options[i];
+				for (var k in options) {
+					if (hasOwn.call(options, k)) {
+						if (deep && typeof options[k] === "object") {
+							var temp = Array.isArray(options[k]) ? [] : {};
+							L.extend(true, temp, options[k]);
+						}
+						target[k] = options[k];
+					}
 				}
 			}
 			return target;
