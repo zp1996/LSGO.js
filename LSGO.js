@@ -9,7 +9,7 @@
 		return factory();
 	}) : global.L = factory();
 })(this, function (undefined) {
-	// 常量定义
+	// 常量定+义
 	const MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
 
 	var op = Object.prototype,
@@ -530,8 +530,8 @@
 
 		L.fn.init.prototype = LSGO.prototype = L.fn;
 		/**
-		 * 扩展引用类型属性
-		 * @param  (是否为深复制,可选,默认false),目标对象,源头对象
+		 * extend object
+		 * @param  (whether deep, default false),target,source
 		 */
 		L.extend = L.fn.extend = function () {
 			var options,
@@ -611,13 +611,13 @@
 				}
 				return flatten(values);
 			},
-			// 将一个数组合并到另一数组
+			// merge a with b
 			merge: function (first, second) {
 				second = L.isArray(second) ? second : [second];
 				ap.push.apply(first, second);
 				return first;
 			},
-			// 给数组去重
+			// Remove duplicate
 			dedupe: function (arr) {
 				var cache = {},
 					res = [];
@@ -629,7 +629,7 @@
 				}
 				return res;
 			},
-			// 将数组打乱顺序
+			// Upset array's order
 			shuffle: function (arr) {
 				var len = arr.length,
 					temp, i;
@@ -641,7 +641,7 @@
 				}
 				return arr;
 			},
-			// 得到一个由数组中满足的项组成的数组
+			// get the element whick meets the condition
 			grep: function (arr, callback) {
 				callback = callback || (function () { return true });
 				return ap.filter.call(arr, callback);
@@ -770,5 +770,16 @@
 					 		return val.replace(formatRE, ",");	
 					 });
 	};
+	// event: 
+	('focusin focusout focus blur load resize scroll unload click dblclick '+
+  'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave '+
+  'change select keydown keypress keyup error').split(' ').forEach(function(event) {
+    L.fn[event] = function(callback) {
+    	var self = this;
+    	ap.forEach.call(self, function (val) {
+				val.addEventListener(event, callback, false);
+    	});
+    };
+  });
 	return L;
 });

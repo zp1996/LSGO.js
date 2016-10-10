@@ -2,7 +2,9 @@
 	var assert = chai.assert,
 		fn = null;
 	mocha.ui("bdd");
-
+	L("button").click(function () {
+		console.log(this);
+	});
 	describe("LSGO类库测试", () => {
 		describe("DOM相关方法测试", () => {
 			it("selector", () => {
