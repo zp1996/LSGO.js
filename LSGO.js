@@ -328,6 +328,23 @@
 					return children(this);
 				}), selector);
 			},
+			// get closest's ancestor element
+			closest: function(selector, context) {
+				var nodes = [],
+					collection = typeof selector === "object" && L(selector);
+				this.each(function(node) {
+					while (node && 
+						!(collection ? 
+							collection.indexOf(node) !== -1 :
+							matches(node, selector) 
+						)
+					) {
+						node = node !== context && node.parentNode;
+					}
+					if (node && nodes.indexOf(node) === -1) nodes.push(node);
+				});
+				return L(nodes);
+			},
 			// get all child nodes
 			contents: function () {
 				return this.map(function () {

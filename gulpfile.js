@@ -6,10 +6,10 @@ const gulp = require("gulp"),
 
 gulp.task("default", () => {
 	return gulp.src(path)
-						 .pipe(jshint())
-						 .pipe(uglify())
-						 .pipe(rename("./lib/lsgo.min.js"))
-						 .pipe(gulp.dest('./'));
+	 	.pipe(jshint())
+	 	.pipe(uglify())
+	 	.pipe(rename("./lib/lsgo.min.js"))
+	 	.pipe(gulp.dest('./'));
 });
 
 gulp.watch(path, ["default"]);

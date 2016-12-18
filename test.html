@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>测试</title> 
+		<style type="text/css">
+			.test1{
+				width: 300px;
+				height: 300px;
+				background: yellow;
+			}
+			.test2{
+				width: 200px;
+				height: 200px;
+				background: green;
+			}
+			.test3{
+				width: 100px;
+				height: 100px;
+				background: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="test1">
+			<div class="test2"></div>
+			<div class="test2">
+				<div class="test3">
+					<a href="http://www.baidu.com" id="baidu">
+						百度
+					</a>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="http://www.zeptojs.cn/zepto.min.js"></script>
+		<script type="text/javascript" src="./lib/lsgo.min.js"></script>
+		<script type="text/javascript" src="./events.js"></script>
+		<script type="text/javascript">
+			var test1 = document.querySelector(".test1");
+			var test2 = document.querySelector(".test2");
+			var test3 = document.querySelector(".test3");
+			var baidu = document.querySelector("#baidu");
+			L(".test1").on({
+				click: function() {
+					console.log(12345);
+				},
+				mouseover: function() {
+					console.log(123);
+				}
+			});
+			L(".test3").on("click", {
+				name: "zp1996"
+			}, function(e) {
+				console.log(e.data, "12345");
+			});
+			L(".test1").delegate(".test2", "click", function(e) {
+				console.log("test2点击了啊", e);
+			});
+			L("#baidu").bind("click", {
+				name: "zp1996",
+				age: 20
+			}, function(e) {
+				console.log(e.data);
+				e.preventDefault();
+			});
+			L(".test3").off();
+			L(".test1").off("click");
+		</script>
+	</body>
+</html>
