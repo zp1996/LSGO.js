@@ -159,6 +159,9 @@
 			return value;
 		}
 	}
+	function isWindow (obj) {
+		return obj && obj === obj.window;
+	}
 	var L = function () {
 		var L = function (selector, context) {
 			// 为了让对象的原型链中含有L
@@ -715,18 +718,11 @@
 					container.removeChild(val);
 				});
 				// add the element's attribute
-				if (isPlainObject(prototies)) {
+				if (L.isPlainObject(prototies)) {
 					nodes = L(dom);
 				}
 			}
 			return dom;
-		}
-		function isWindow (obj) {
-			return obj && obj === obj.window;
-		}
-		// 检测是否为普通对象(不是window对象且直接继承自Object.prototype)
-		function isPlainObject (obj) {
-			return L.isObject(obj) && !isWindow(obj) && Object.getPrototypeOf(obj) === Object.prototype;
 		}
 		function reChild (c) {
 			return c && isLSGO(c) ? c : L(c);
@@ -739,6 +735,10 @@
 			return toString.call(obj) === "[object " + name + "]";
 		};
 	});
+	// 检测是否为普通对象(不是window对象且直接继承自Object.prototype)
+	L.isPlainObject = function(obj) {
+		return L.isObject(obj) && !isWindow(obj) && Object.getPrototypeOf(obj) === Object.prototype;
+	};
 	// judge whether ele is parent child node
 	L.contains = document.documentElement.contains ? 
 							 function (parent, ele) {

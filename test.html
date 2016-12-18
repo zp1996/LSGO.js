@@ -36,10 +36,6 @@
 		<script type="text/javascript" src="./lib/lsgo.min.js"></script>
 		<script type="text/javascript" src="./events.js"></script>
 		<script type="text/javascript">
-			var test1 = document.querySelector(".test1");
-			var test2 = document.querySelector(".test2");
-			var test3 = document.querySelector(".test3");
-			var baidu = document.querySelector("#baidu");
 			L(".test1").on({
 				click: function() {
 					console.log(12345);
@@ -50,8 +46,8 @@
 			});
 			L(".test3").on("click", {
 				name: "zp1996"
-			}, function(e) {
-				console.log(e.data, "12345");
+			}, function(e, obj) {
+				console.log(e.data, "12345", obj);
 			});
 			L(".test1").delegate(".test2", "click", function(e) {
 				console.log("test2点击了啊", e);
@@ -63,8 +59,16 @@
 				console.log(e.data);
 				e.preventDefault();
 			});
-			L(".test3").off();
-			L(".test1").off("click");
+			$.Event("hide", {
+				name: "zp1996"
+			});
+			L(".test3").mouseover(function() {
+				console.log("准备触发click事件啦");
+				L(this).triggerHandler("click", {
+					x: 10, 
+					y: 10
+				});
+			});
 		</script>
 	</body>
 </html>

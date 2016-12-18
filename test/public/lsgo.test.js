@@ -214,6 +214,13 @@
 				assert(fn({x: 1}) === false);
 				assert(fn(Object.create(null)) === true);
 			});
+			it("L.isPlainObject", () => {
+				fn = L.isPlainObject;
+				assert(fn({}) === true);
+				assert(fn({x: 1}) === true);
+				assert(fn(Object.create(null)) === false);
+				assert(fn(document.location) === false);
+			});
 		});
 	});
 

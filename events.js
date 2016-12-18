@@ -20,7 +20,9 @@
 	        preventDefault: "isDefaultPrevented",    // 阻止默认事件
 	        stopImmediatePropagation: "isImmediatePropagationStopped",  // 阻止冒泡且阻止其它事件执行
 	        stopPropagation: "isPropagationStopped"  // 阻止事件冒泡
-	    };
+	    }, specialEvents = {};
+	// 事件对象为MouseEvents类型
+	specialEvents.click = specialEvents.mousedown = specialEvents.mouseup = specialEvents.mousemove = "MouseEvents";
 	// 生成唯一id标识
 	function get_id(ele) {
 		return ele._id || (ele._id = _id++);
@@ -129,6 +131,7 @@
 				e.data = data;
 				// return false => 进行阻止默认事件与事件冒泡
 				// callback函数绑定在了element上
+				// _args仅仅在trigger和triggerHandler方式调用时才有
 				var result = callback.apply(
 					element, 
 					e._args == null ? [e] : [e].concat(e._args)
@@ -313,5 +316,69 @@
 	// 该事件仅仅执行一次
 	L.fn.one = function(event, selector, data, callback) {
 		return this.on(event, selector, data, callback, 1);
+	};
+	// 触发事件,zepto的触发事件只能作用于DOM上
+	L.fn.trigger = function(event, args) {
+		event = (L.isString(event) || L.isPlainObject(event)) ? L.Event(event) : compatible(event);
+		event._args = args;
+		return this.each(function() {
+			if (event.type in focus && typeof this[event.type] === "function") {
+				this[event.type]();
+			} else if ("dispatchEvent" in this) {  // 浏览器原生触发事件API
+				this.dispatchEvent(event);
+			} else {
+				L(this).triggerHandler(event, args);
+			}
+ 		});
+	};
+	// 仅在当前元素上触发事件，不会发生冒泡
+	// 根据对应事件筛选出其执行函数，调用其执行函数
+	L.fn.triggerHandler = function(event, args) {
+		var e, result;
+		this.each(function(element, i) {
+			e = createProxy(L.isString(event) ? $.Event(event) : event);
+			e._args = args;
+			e.target = element;
+			L.each(findHandlers(element, event.type || event), function(handler) {
+				result = handler.proxy(e);
+				if (e.isImmediatePropagationStopped()) return false;
+			});
+		});
+		return result;
+	};
+	// 简化bind方法，直接$().click()即可
+	// 传入了函数，则为注册事件
+	// 未传入参数，则为触发事件
+	("focusin focusout focus blur load resize scroll unload click dblclick " +
+	  "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
+	  "change select keydown keypress keyup error").split(" ").forEach(function(event) {
+	    L.fn[event] = function(callback) {
+	      return (arguments.length === 1) ?
+	        this.bind(event, callback) :
+	        this.trigger(event)
+	    }
+	});
+	// 创建Event对象
+	// bubbles，默认为true，冒泡时处理
+	L.Event = function(type, props) {
+		if (!L.isString(type)) {
+			props = type;
+			type = props.type;
+		}
+		var event = document.createEvent(specialEvents[type] || "Events"),
+			bubbles = true;
+		if (props) {
+			for (var name in props) {
+				if (name === "bubbles") {
+					bubbles = !!props[name];
+				} else {
+					event[name] = bubbles[name];
+				}
+			}
+		}
+		// initEvent初始化事件对象
+		// 事件类型,是否冒泡,是否可以阻止默认事件
+		event.initEvent(type, bubbles, true);
+		return compatible(event);
 	};
 })(L);
