@@ -34,7 +34,6 @@
 		</div>
 		<script type="text/javascript" src="http://www.zeptojs.cn/zepto.min.js"></script>
 		<script type="text/javascript" src="./lib/lsgo.min.js"></script>
-		<script type="text/javascript" src="./events.js"></script>
 		<script type="text/javascript">
 			L(".test1").on({
 				click: function() {
@@ -57,11 +56,12 @@
 				age: 20
 			}, function(e) {
 				console.log(e.data);
-				e.preventDefault();
+				return false;
 			});
 			$.Event("hide", {
 				name: "zp1996"
 			});
+			L(".test1").off("mouseover");
 			L(".test3").mouseover(function() {
 				console.log("准备触发click事件啦");
 				L(this).triggerHandler("click", {

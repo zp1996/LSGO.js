@@ -787,16 +787,5 @@
 					 		return val.replace(formatRE, ",");	
 					 });
 	};
-	// event: 
-	('focusin focusout focus blur load resize scroll unload click dblclick '+
-  'mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave '+
-  'change select keydown keypress keyup error').split(' ').forEach(function(event) {
-    L.fn[event] = function(callback) {
-    	var self = this;
-    	ap.forEach.call(self, function (val) {
-				val.addEventListener(event, callback, false);
-    	});
-    };
-  });
 	return L;
 });
